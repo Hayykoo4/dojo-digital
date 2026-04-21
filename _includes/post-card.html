@@ -1,0 +1,36 @@
+{% assign post = include.post %}
+{% assign card_class = include.class | default: '' %}
+
+<article class="post-card {{ card_class }}">
+  <a href="{{ post.url | relative_url }}" class="post-card-link">
+    {% if post.image %}
+    <div class="post-card-image" style="background-image: url('{{ post.image | relative_url }}');">
+    {% else %}
+    <div class="post-card-image post-card-image--placeholder">
+    {% endif %}
+      <span class="post-card-category category-{{ post.category }}">
+        {{ site.categories_info[post.category].name | default: post.category | capitalize }}
+      </span>
+    </div>
+    <div class="post-card-content">
+      <h3 class="post-card-title">{{ post.title }}</h3>
+      <p class="post-card-excerpt">
+        {% if post.description %}
+          {{ post.description | truncate: 120 }}
+        {% else %}
+          {{ post.excerpt | strip_html | truncate: 120 }}
+        {% endif %}
+      </p>
+      <div class="post-card-meta">
+        <time datetime="{{ post.date | date_to_xmlschema }}">
+          {{ post.date | date: "%d %B %Y" }}
+        </time>
+        {% if post.event_date %}
+        <span class="post-card-event-date">
+          📅 {{ post.event_date | date: "%d %B %Y" }}
+        </span>
+        {% endif %}
+      </div>
+    </div>
+  </a>
+</article>

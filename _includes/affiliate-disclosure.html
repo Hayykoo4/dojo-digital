@@ -1,0 +1,41 @@
+<!-- ================================================
+     ENCART DIVULGATION D'AFFILIATION
+     À inclure dans les articles contenant des liens affiliés
+     Usage: {% include affiliate-disclosure.html %}
+     ================================================ -->
+
+<aside class="affiliate-disclosure">
+  <p class="affiliate-disclosure-text">
+    <strong>📦 Divulgation :</strong> Cet article contient des liens d'affiliation. Si vous achetez un produit via ces liens, Dojo Digital peut percevoir une commission, sans coût supplémentaire pour vous. En tant que Partenaire Amazon, nous réalisons un bénéfice sur les achats remplissant les conditions requises. <a href="{{ '/politique-confidentialite/#5-liens-affiliés-et-amazon-partenaires' | relative_url }}">En savoir plus</a>
+  </p>
+</aside>
+
+<style>
+.affiliate-disclosure {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  border-left: 4px solid #f59e0b;
+  border-radius: 0 8px 8px 0;
+  padding: 1rem 1.25rem;
+  margin: 1.5rem 0;
+}
+
+.affiliate-disclosure-text {
+  font-size: 0.85rem;
+  color: #b0b0c0;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.affiliate-disclosure-text strong {
+  color: #f59e0b;
+}
+
+.affiliate-disclosure-text a {
+  color: #e63946;
+  text-decoration: underline;
+}
+
+.affiliate-disclosure-text a:hover {
+  color: #ff5a5f;
+}
+</style>

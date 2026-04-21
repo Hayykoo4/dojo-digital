@@ -1,0 +1,39 @@
+---
+layout: default
+---
+
+{% assign cat_key = page.category %}
+{% assign cat_info = site.categories_info[cat_key] %}
+
+<section class="category-page">
+  <!-- Header de catégorie -->
+  <header class="category-header category-header--{{ cat_key }}">
+    <div class="container">
+      <h1 class="category-title">{{ cat_info.name | default: page.title }}</h1>
+      <p class="category-description">{{ cat_info.description | default: page.description }}</p>
+      <span class="category-count">
+        {{ site.categories[cat_key].size | default: 0 }} articles
+      </span>
+    </div>
+  </header>
+  
+  <!-- Liste des articles -->
+  <div class="category-content">
+    <div class="container">
+      {% assign cat_posts = site.categories[cat_key] %}
+      
+      {% if cat_posts.size > 0 %}
+      <div class="posts-grid">
+        {% for post in cat_posts %}
+          {% include post-card.html post=post %}
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="no-posts">
+        <p>Aucun article dans cette catégorie pour le moment.</p>
+        <a href="{{ '/' | relative_url }}" class="btn">Retour à l'accueil</a>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</section>

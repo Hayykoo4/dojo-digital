@@ -1,0 +1,134 @@
+---
+layout: default
+---
+
+<!-- Hero Section -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-content">
+      <h1 class="hero-title">
+        <span class="hero-icon">🥋</span>
+        Dojo<span class="accent">Digital</span>
+      </h1>
+      <p class="hero-subtitle">
+        Votre source quotidienne d'actualités sur les sports de combat.<br>
+        MMA • Judo • Jujitsu/BJJ • Lutte
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Section Gros Titres -->
+<section class="featured-section">
+  <div class="container">
+    <h2 class="section-title">🔥 Les Gros Titres</h2>
+    
+    <div class="featured-grid">
+      
+      <!-- Événements à venir (2 articles) -->
+      {% assign today = 'now' | date: '%Y-%m-%d' %}
+      {% assign future_events = site.posts | where: "type", "futur_evenement" | sort: "event_date" %}
+      {% assign upcoming = "" | split: "" %}
+      {% for post in future_events %}
+        {% assign event_date_str = post.event_date | date: '%Y-%m-%d' %}
+        {% if event_date_str >= today %}
+          {% assign upcoming = upcoming | push: post %}
+        {% endif %}
+      {% endfor %}
+      
+      {% for post in upcoming limit: 2 %}
+      <div class="featured-item featured-upcoming">
+        <span class="featured-badge upcoming">📅 À venir</span>
+        {% include post-card.html post=post class="featured-card" %}
+      </div>
+      {% endfor %}
+      
+      <!-- Événements passés (2 articles) -->
+      {% assign past_events = site.posts | where: "type", "evenement_passe" | sort: "event_date" | reverse %}
+      {% assign past = "" | split: "" %}
+      {% for post in past_events %}
+        {% assign event_date_str = post.event_date | date: '%Y-%m-%d' %}
+        {% if event_date_str < today %}
+          {% assign past = past | push: post %}
+        {% endif %}
+      {% endfor %}
+      
+      {% for post in past limit: 2 %}
+      <div class="featured-item featured-past">
+        <span class="featured-badge past">🏆 Résultat</span>
+        {% include post-card.html post=post class="featured-card" %}
+      </div>
+      {% endfor %}
+      
+      <!-- À découvrir aujourd'hui (1 article aléatoire basé sur le jour) -->
+      {% assign discovery_posts = site.posts | where: "type", "decouverte" %}
+      {% assign day_of_year = 'now' | date: '%j' | plus: 0 %}
+      {% assign discovery_count = discovery_posts.size %}
+      {% if discovery_count > 0 %}
+        {% assign random_index = day_of_year | modulo: discovery_count %}
+        {% assign discovery_post = discovery_posts[random_index] %}
+        <div class="featured-item featured-discovery">
+          <span class="featured-badge discovery">💡 À découvrir</span>
+          {% include post-card.html post=discovery_post class="featured-card" %}
+        </div>
+      {% endif %}
+      
+    </div>
+  </div>
+</section>
+
+<!-- ========================================
+     EMPLACEMENT PUBLICITAIRE : HOME - ENTRE SECTIONS
+     Position discrète entre Gros Titres et Derniers Articles
+     Format recommandé : Bannière horizontale responsive
+     ======================================== -->
+<section class="ad-section-home">
+  <div class="container">
+    <div class="ad-slot ad-slot-home">
+      <div class="ad-container">
+        <!-- Code pub Google AdSense ici -->
+        <span class="ad-placeholder">Espace publicitaire</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section Derniers Articles -->
+<section class="latest-section">
+  <div class="container">
+    <h2 class="section-title">📰 Derniers Articles</h2>
+    
+    <div class="posts-grid">
+      {% for post in site.posts limit: 9 %}
+        {% include post-card.html post=post %}
+      {% endfor %}
+    </div>
+    
+    {% if site.posts.size > 9 %}
+    <div class="load-more">
+      <a href="{{ '/archives/' | relative_url }}" class="btn btn-outline">Voir tous les articles</a>
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+<!-- Section Catégories -->
+<section class="categories-section">
+  <div class="container">
+    <h2 class="section-title">🎯 Explorez par discipline</h2>
+    
+    <div class="categories-grid">
+      {% for cat in site.categories_info %}
+      {% assign cat_key = cat[0] %}
+      {% assign cat_info = cat[1] %}
+      <a href="{{ '/' | append: cat_key | append: '/' | relative_url }}" class="category-card category-{{ cat_key }}">
+        <h3 class="category-card-title">{{ cat_info.name }}</h3>
+        <p class="category-card-desc">{{ cat_info.description }}</p>
+        <span class="category-card-count">
+          {{ site.categories[cat_key].size | default: 0 }} articles
+        </span>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>

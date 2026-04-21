@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  {% include head.html %}
+</head>
+<body class="{% if page.layout %}layout-{{ page.layout }}{% endif %}">
+  {% include gtm-body-noscript.html %}
+  {% include cookie-banner.html %}
+  {% include header.html %}
+  
+  <div class="site-wrapper">
+    <main class="site-main">
+      {{ content }}
+    </main>
+
+    <!-- ========================================
+         SIDEBAR AVEC EMPLACEMENT PUBLICITAIRE
+         Visible uniquement sur desktop (>768px)
+         Masquée automatiquement sur mobile via CSS
+         ======================================== -->
+    {% if page.layout == 'post' %}
+    <aside class="sidebar">
+      <div class="sidebar-content">
+        <!-- Emplacement pub sidebar 1 -->
+        <div class="ad-slot ad-slot-sidebar">
+          <div class="ad-container">
+            <!-- Code pub Google AdSense ici - Format : 300x250 ou 160x600 -->
+            <span class="ad-placeholder">Publicité</span>
+          </div>
+        </div>
+
+        <!-- Widget Newsletter ou autre contenu -->
+        <div class="sidebar-widget">
+          <h3 class="sidebar-title">📬 Newsletter</h3>
+          <p class="sidebar-text">Recevez les dernières actus combat !</p>
+        </div>
+
+        <!-- Emplacement pub sidebar 2 (sticky) -->
+        <div class="ad-slot ad-slot-sidebar ad-slot-sticky">
+          <div class="ad-container">
+            <!-- Code pub Google AdSense ici - Format : 300x600 ou 160x600 -->
+            <span class="ad-placeholder">Publicité</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+    {% endif %}
+  </div>
+  
+  {% include footer.html %}
+  {% include scripts.html %}
+</body>
+</html>

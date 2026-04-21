@@ -1,0 +1,35 @@
+<header class="site-header">
+  <div class="container">
+    <div class="header-inner">
+      <!-- Logo -->
+      <a href="{{ '/' | relative_url }}" class="logo" aria-label="Dojo Digital - Accueil">
+        <img 
+          src="{{ '/assets/img/logo-dd.png' | relative_url }}" 
+          alt="Dojo Digital" 
+          class="site-logo"
+          width="50"
+          height="50"
+        >
+        <span class="logo-text">Dojo<span class="logo-accent">Digital</span></span>
+      </a>
+
+      <!-- Navigation mobile toggle -->
+      <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <span class="hamburger"></span>
+      </button>
+
+      <!-- Navigation principale -->
+      <nav class="main-nav" role="navigation">
+        <ul class="nav-list">
+          {% for item in site.navigation %}
+          <li class="nav-item">
+            <a href="{{ item.url | relative_url }}" class="nav-link {% if page.url == item.url %}active{% endif %}">
+              {{ item.title }}
+            </a>
+          </li>
+          {% endfor %}
+        </ul>
+      </nav>
+    </div>
+  </div>
+</header>

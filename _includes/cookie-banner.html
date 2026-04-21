@@ -1,0 +1,281 @@
+<!-- ================================================
+     BANNIÈRE DE CONSENTEMENT AUX COOKIES
+     À inclure dans _layouts/default.html juste après <body>
+     
+     Fonctionnement :
+     - S'affiche si le cookie "cookie_consent" n'existe pas
+     - Bouton "Accepter" : dépose cookie_consent=accepted
+     - Bouton "Refuser" : dépose cookie_consent=refused
+     - Le JS doit être complété pour activer/désactiver les scripts
+     ================================================ -->
+
+<div id="cookie-banner" class="cookie-banner" role="dialog" aria-labelledby="cookie-banner-title" aria-describedby="cookie-banner-desc" aria-modal="true">
+  <div class="cookie-banner-content">
+    <div class="cookie-banner-text">
+      <h2 id="cookie-banner-title" class="cookie-banner-title">🍪 Gestion des cookies</h2>
+      <p id="cookie-banner-desc" class="cookie-banner-description">
+        Dojo Digital utilise des cookies pour améliorer votre expérience, mesurer l'audience et afficher des publicités personnalisées via Google AdSense. 
+        Vous pouvez accepter ou refuser ces cookies. 
+        <a href="{{ '/politique-confidentialite/' | relative_url }}" class="cookie-banner-link">En savoir plus</a>
+      </p>
+    </div>
+    <div class="cookie-banner-actions">
+      <button type="button" id="cookie-accept" class="cookie-btn cookie-btn-accept">
+        Accepter
+      </button>
+      <button type="button" id="cookie-refuse" class="cookie-btn cookie-btn-refuse">
+        Refuser
+      </button>
+      <a href="{{ '/cookies/' | relative_url }}" class="cookie-btn cookie-btn-settings">
+        Personnaliser
+      </a>
+    </div>
+  </div>
+</div>
+
+<style>
+/* ========================================
+   STYLES BANNIÈRE DE COOKIES
+   ======================================== */
+
+.cookie-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  background: #1a1a2e;
+  border-top: 3px solid #e63946;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
+  padding: 1.25rem;
+  display: none; /* Masqué par défaut, affiché via JS */
+}
+
+.cookie-banner.is-visible {
+  display: block;
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.cookie-banner-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.cookie-banner-text {
+  flex: 1;
+  min-width: 280px;
+}
+
+.cookie-banner-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0 0 0.5rem 0;
+}
+
+.cookie-banner-description {
+  font-size: 0.9rem;
+  color: #b0b0c0;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.cookie-banner-link {
+  color: #e63946;
+  text-decoration: underline;
+}
+
+.cookie-banner-link:hover {
+  color: #ff5a5f;
+}
+
+.cookie-banner-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.cookie-btn {
+  padding: 0.65rem 1.25rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  text-align: center;
+  border: none;
+}
+
+.cookie-btn-accept {
+  background: #e63946;
+  color: #ffffff;
+}
+
+.cookie-btn-accept:hover {
+  background: #ff5a5f;
+  transform: translateY(-1px);
+}
+
+.cookie-btn-refuse {
+  background: transparent;
+  color: #ffffff;
+  border: 1px solid #ffffff;
+}
+
+.cookie-btn-refuse:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.cookie-btn-settings {
+  background: transparent;
+  color: #b0b0c0;
+  border: 1px solid #b0b0c0;
+}
+
+.cookie-btn-settings:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
+  border-color: #ffffff;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .cookie-banner {
+    padding: 1rem;
+  }
+  
+  .cookie-banner-content {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .cookie-banner-actions {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .cookie-btn {
+    flex: 1;
+    min-width: 100px;
+  }
+}
+</style>
+
+<script>
+(function() {
+  'use strict';
+  
+  var COOKIE_NAME = 'cookie_consent';
+  var COOKIE_DAYS = 365;
+  var banner = document.getElementById('cookie-banner');
+  var acceptBtn = document.getElementById('cookie-accept');
+  var refuseBtn = document.getElementById('cookie-refuse');
+  
+  // Vérifie si un cookie existe
+  function getCookie(name) {
+    var match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+    return match ? match[2] : null;
+  }
+  
+  // Définit un cookie
+  function setCookie(name, value, days) {
+    var expires = '';
+    if (days) {
+      var date = new Date();
+      date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+      expires = '; expires=' + date.toUTCString();
+    }
+    document.cookie = name + '=' + value + expires + '; path=/; SameSite=Lax';
+  }
+  
+  // Affiche la bannière si pas de consentement
+  function showBannerIfNeeded() {
+    var consent = getCookie(COOKIE_NAME);
+    if (!consent) {
+      banner.classList.add('is-visible');
+    } else {
+      // Applique le consentement existant
+      applyConsent(consent);
+    }
+  }
+  
+  // Applique le consentement (à personnaliser selon vos besoins)
+  function applyConsent(consent) {
+    if (consent === 'accepted') {
+      // Activer Google Analytics, AdSense personnalisé, etc.
+      enableTrackingScripts();
+    } else if (consent === 'refused') {
+      // Désactiver ou ne pas charger les scripts de tracking
+      disableTrackingScripts();
+    }
+  }
+  
+  // Fonction placeholder pour activer les scripts
+  function enableTrackingScripts() {
+    // Exemple : charger Google Analytics
+    // window.dataLayer = window.dataLayer || [];
+    // function gtag(){dataLayer.push(arguments);}
+    // gtag('js', new Date());
+    // gtag('config', 'GA_MEASUREMENT_ID');
+    
+    // Exemple : activer les pubs personnalisées AdSense
+    // (window.adsbygoogle = window.adsbygoogle || []).requestNonPersonalizedAds = 0;
+    
+    console.log('[Cookies] Consentement accepté - Scripts de tracking activés');
+  }
+  
+  // Fonction placeholder pour désactiver les scripts
+  function disableTrackingScripts() {
+    // Désactiver la personnalisation des annonces
+    // (window.adsbygoogle = window.adsbygoogle || []).requestNonPersonalizedAds = 1;
+    
+    console.log('[Cookies] Consentement refusé - Scripts de tracking désactivés');
+  }
+  
+  // Cache la bannière
+  function hideBanner() {
+    banner.classList.remove('is-visible');
+  }
+  
+  // Gestionnaires d'événements
+  if (acceptBtn) {
+    acceptBtn.addEventListener('click', function() {
+      setCookie(COOKIE_NAME, 'accepted', COOKIE_DAYS);
+      applyConsent('accepted');
+      hideBanner();
+    });
+  }
+  
+  if (refuseBtn) {
+    refuseBtn.addEventListener('click', function() {
+      setCookie(COOKIE_NAME, 'refused', COOKIE_DAYS);
+      applyConsent('refused');
+      hideBanner();
+    });
+  }
+  
+  // Initialisation au chargement
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', showBannerIfNeeded);
+  } else {
+    showBannerIfNeeded();
+  }
+})();
+</script>

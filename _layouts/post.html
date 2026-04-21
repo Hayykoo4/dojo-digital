@@ -1,0 +1,127 @@
+---
+layout: default
+---
+
+<article class="post">
+  <header class="post-header">
+    <div class="container container--narrow">
+      <!-- Catégorie -->
+      <a href="{{ '/' | append: page.category | append: '/' | relative_url }}" class="post-category category-{{ page.category }}">
+        {{ site.categories_info[page.category].name | default: page.category | capitalize }}
+      </a>
+      
+      <!-- Titre -->
+      <h1 class="post-title">{{ page.title }}</h1>
+      
+      <!-- Meta -->
+      <div class="post-meta">
+        <time datetime="{{ page.date | date_to_xmlschema }}" class="post-date">
+          📅 Publié le {{ page.date | date: "%d %B %Y" }}
+        </time>
+        {% if page.author %}
+        <span class="post-author">
+          ✍️ Par {{ page.author }}
+        </span>
+        {% endif %}
+        {% if page.event_date %}
+        <span class="post-event-date">
+          🏟️ Événement : {{ page.event_date | date: "%d %B %Y" }}
+        </span>
+        {% endif %}
+      </div>
+      
+      <!-- Description -->
+      {% if page.description %}
+      <p class="post-description">{{ page.description }}</p>
+      {% endif %}
+    </div>
+  </header>
+
+  <!-- ========================================
+       EMPLACEMENT PUBLICITAIRE : HAUT D'ARTICLE
+       Insérez votre code Google AdSense / Amazon ici
+       Format recommandé : Bannière horizontale (728x90 ou responsive)
+       ======================================== -->
+  <div class="ad-slot ad-slot-top">
+    <div class="container container--narrow">
+      <div class="ad-container">
+        <!-- Code pub Google AdSense ici -->
+        <span class="ad-placeholder">Espace publicitaire</span>
+      </div>
+    </div>
+  </div>
+  
+  {% if page.image %}
+  <div class="post-image">
+    <div class="container">
+      <img src="{{ page.image | relative_url }}" alt="{{ page.title }}" loading="lazy">
+    </div>
+  </div>
+  {% endif %}
+  
+  <div class="post-content">
+    <div class="container container--narrow">
+      {{ content }}
+
+      <!-- ========================================
+           EMPLACEMENT PUBLICITAIRE : MILIEU D'ARTICLE
+           À utiliser pour les articles longs (>800 mots)
+           Vous pouvez aussi créer un include séparé pour l'insérer
+           manuellement dans le contenu avec: include ad-mid.html
+           Format recommandé : Rectangle (300x250) ou In-article
+           ======================================== -->
+      <div class="ad-slot ad-slot-mid">
+        <div class="ad-container">
+          <!-- Code pub Google AdSense ici -->
+          <span class="ad-placeholder">Espace publicitaire</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========================================
+       EMPLACEMENT PUBLICITAIRE : BAS D'ARTICLE
+       Juste après le contenu, avant les boutons de partage
+       Format recommandé : Bannière horizontale ou Rectangle
+       ======================================== -->
+  <div class="ad-slot ad-slot-bottom">
+    <div class="container container--narrow">
+      <div class="ad-container">
+        <!-- Code pub Google AdSense ici -->
+        <span class="ad-placeholder">Espace publicitaire</span>
+      </div>
+    </div>
+  </div>
+  
+  <footer class="post-footer">
+    <div class="container container--narrow">
+      <!-- Boutons de partage -->
+      {% include share-buttons.html %}
+      
+      <!-- Tags si présents -->
+      {% if page.tags.size > 0 %}
+      <div class="post-tags">
+        <span class="tags-label">Tags :</span>
+        {% for tag in page.tags %}
+        <span class="tag">{{ tag }}</span>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+  </footer>
+</article>
+
+<!-- Articles similaires -->
+<section class="related-posts">
+  <div class="container">
+    <h2 class="section-title">📚 Articles similaires</h2>
+    
+    <div class="posts-grid posts-grid--small">
+      {% assign related = site.categories[page.category] | where_exp: "post", "post.url != page.url" | limit: 3 %}
+      {% for post in related %}
+        {% include post-card.html post=post %}
+      {% endfor %}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,81 @@
+# Configuration du site Dojo Digital
+title: Dojo Digital
+description: "Votre source d'actualités sur les sports de combat : MMA, Judo, Jujitsu/BJJ et Lutte"
+url: "https://dojodigital.social" # Domaine personnalisé
+baseurl: "" # Vide car le site est à la racine du domaine
+author: Dojo Digital
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+
+# Permaliens propres
+permalink: /:categories/:year/:month/:day/:title/
+
+# Collections et defaults
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "page"
+
+# Exclusions
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - vendor
+
+# Plugins compatibles GitHub Pages
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+# Réseaux sociaux (placeholders)
+social:
+  tiktok: "https://tiktok.com/@dojodigital"
+  instagram: "https://instagram.com/dojodigital"
+  twitter: "https://x.com/dojodigital"
+
+# Navigation principale
+navigation:
+  - title: Accueil
+    url: /
+  - title: Judo
+    url: /judo/
+  - title: MMA
+    url: /mma/
+  - title: Jujitsu
+    url: /jujitsu/
+  - title: Lutte
+    url: /lutte/
+  - title: À propos
+    url: /a-propos/
+  - title: Contact
+    url: /contact/
+
+# Catégories avec descriptions
+categories_info:
+  judo:
+    name: "Judo"
+    description: "L'art de la souplesse - Actualités, compétitions et techniques du judo mondial."
+    color: "#2563eb"
+  mma:
+    name: "MMA"
+    description: "Arts martiaux mixtes - UFC, Bellator, PFL et toute l'actualité du MMA."
+    color: "#dc2626"
+  jujitsu:
+    name: "Jujitsu / BJJ"
+    description: "Brazilian Jiu-Jitsu et Jujitsu traditionnel - Techniques, compétitions et champions."
+    color: "#7c3aed"
+  lutte:
+    name: "Lutte"
+    description: "Lutte libre et gréco-romaine - Championnats, JO et stars de la discipline."
+    color: "#059669"
