@@ -11,7 +11,7 @@ description: "Mentions légales du site Dojo Digital"
 
 **Nom du site** : Dojo Digital  
 **Adresse URL** : [https://dojodigital.social](https://dojodigital.social)  
-**Email de contact** : [contact@dojodigital.social](mailto:contact@dojodigital.social)
+**Email de contact** : [khn.groupe@gmail.com](mailto:khn.groupe@gmail.com)
 
 <!-- 
 ==============================================
@@ -102,7 +102,7 @@ Les présentes mentions légales sont régies par le droit français. En cas de 
 
 Pour toute question concernant ces mentions légales :
 
-📧 **Email** : [contact@dojodigital.social](mailto:contact@dojodigital.social)
+📧 **Email** : [khn.groupe@gmail.com](mailto:khn.groupe@gmail.com)
 
 ---
 

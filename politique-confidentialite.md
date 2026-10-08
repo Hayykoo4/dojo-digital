@@ -17,7 +17,7 @@ Cette politique de confidentialité décrit comment **Dojo Digital** (accessible
 
 **Dojo Digital** est un blog dédié aux sports de combat : judo, MMA, jujitsu/BJJ et lutte. Nous publions des actualités, des analyses d'événements, des conseils d'entraînement et des recommandations de matériel.
 
-**Contact** : [contact@dojodigital.social](mailto:contact@dojodigital.social)
+**Contact** : [khn.groupe@gmail.com](mailto:khn.groupe@gmail.com)
 
 ---
 
@@ -151,7 +151,7 @@ Si vous résidez dans l'Union européenne, vous disposez des droits suivants con
 | **Droit d'opposition** | Vous pouvez vous opposer au traitement de vos données, notamment à des fins de marketing. |
 | **Droit à la portabilité** | Vous pouvez demander à recevoir vos données dans un format structuré. |
 
-Pour exercer ces droits, contactez-nous à : [contact@dojodigital.social](mailto:contact@dojodigital.social)
+Pour exercer ces droits, contactez-nous à : [khn.groupe@gmail.com](mailto:khn.groupe@gmail.com)
 
 Nous nous engageons à répondre à votre demande dans un délai d'un mois.
 
@@ -183,7 +183,7 @@ La date de « dernière mise à jour » en haut de cette page indique quand la p
 
 Pour toute question concernant cette politique de confidentialité ou vos données personnelles, contactez-nous :
 
-📧 **Email** : [contact@dojodigital.social](mailto:contact@dojodigital.social)
+📧 **Email** : [khn.groupe@gmail.com](mailto:khn.groupe@gmail.com)
 
 ---
 

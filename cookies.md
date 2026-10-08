@@ -122,7 +122,7 @@ Notre bannière de consentement vous permet de :
 
 Pour toute question sur notre utilisation des cookies, contactez-nous :
 
-📧 **Email** : [contact@dojodigital.social](mailto:contact@dojodigital.social)
+📧 **Email** : [khn.groupe@gmail.com](mailto:khn.groupe@gmail.com)
 
 Consultez également notre [Politique de confidentialité](/politique-confidentialite/) pour plus d'informations.
 

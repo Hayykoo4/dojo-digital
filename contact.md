@@ -82,6 +82,6 @@ Suivez nos réalisations, nos matières et nos projets de clubs.
 
 Équipements et vêtements sportifs personnalisés
 
-Contact : contact@khn-sport.com
+Contact : [khn.groupe@gmail.com](mailto:khn.groupe@gmail.com)
 
 _Pour les projets de clubs, pensez à préciser les quantités, les tailles et les délais souhaités._
