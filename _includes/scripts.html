@@ -1,35 +1,60 @@
 <script>
-// Navigation mobile toggle
 document.addEventListener('DOMContentLoaded', function() {
   const navToggle = document.querySelector('.nav-toggle');
   const mainNav = document.querySelector('.main-nav');
-  
   if (navToggle && mainNav) {
     navToggle.addEventListener('click', function() {
       const isExpanded = navToggle.getAttribute('aria-expanded') === 'true';
-      navToggle.setAttribute('aria-expanded', !isExpanded);
+      navToggle.setAttribute('aria-expanded', String(!isExpanded));
       mainNav.classList.toggle('is-open');
       navToggle.classList.toggle('is-active');
     });
+    document.querySelectorAll('.nav-link').forEach(function(link) {
+      link.addEventListener('click', function() { mainNav.classList.remove('is-open'); navToggle.classList.remove('is-active'); navToggle.setAttribute('aria-expanded', 'false'); });
+    });
   }
 
-  // Fermer le menu au clic sur un lien
-  const navLinks = document.querySelectorAll('.nav-link');
-  navLinks.forEach(link => {
-    link.addEventListener('click', function() {
-      mainNav.classList.remove('is-open');
-      navToggle.classList.remove('is-active');
-      navToggle.setAttribute('aria-expanded', 'false');
-    });
-  });
-});
+  const cards = Array.from(document.querySelectorAll('.product-card'));
+  const quoteItems = new Map();
+  const badge = document.getElementById('quote-badge');
+  const quoteCount = document.getElementById('quote-count');
+  function totalItems() { return Array.from(quoteItems.values()).reduce(function(total, item) { return total + item.quantity; }, 0); }
+  function updateQuoteCount() { const total = totalItems(); if (badge) badge.textContent = total; if (quoteCount) quoteCount.textContent = total; }
+  function addToQuote(index, quantity) { const current = quoteItems.get(index); quoteItems.set(index, { quantity: (current ? current.quantity : 0) + (quantity || 1) }); updateQuoteCount(); }
 
-// Copier le lien de l'article
-function copyLink(url) {
-  navigator.clipboard.writeText(url).then(function() {
-    alert('Lien copié dans le presse-papier !');
-  }, function() {
-    prompt('Copiez ce lien :', url);
+  document.querySelectorAll('[data-quantity]').forEach(function(button) {
+    button.addEventListener('click', function() { const output = button.parentElement.querySelector('output'); const value = Math.max(1, Number(output.textContent) + (button.dataset.quantity === 'plus' ? 1 : -1)); output.textContent = value; });
   });
-}
+  document.querySelectorAll('.add-quote').forEach(function(button) {
+    button.addEventListener('click', function() { const card = button.closest('.product-card'); addToQuote(button.dataset.product, Number(card.querySelector('output').textContent)); button.textContent = 'Ajouté ✓'; setTimeout(function() { button.textContent = 'Ajouter au devis'; }, 1800); });
+  });
+
+  const filters = document.querySelectorAll('[data-filter]');
+  function filterProducts() {
+    const discipline = document.querySelector('[data-filter="discipline"]').value.toLowerCase();
+    const type = document.querySelector('[data-filter="type"]').value.toLowerCase();
+    const custom = document.querySelector('[data-filter="custom"]').value;
+    const search = document.querySelector('[data-filter="search"]').value.toLowerCase();
+    let visible = 0;
+    cards.forEach(function(card) { const match = (!discipline || card.dataset.discipline.includes(discipline)) && (!type || card.dataset.type === type) && (!custom || card.dataset.custom === custom) && (!search || card.dataset.name.includes(search)); card.hidden = !match; if (match) visible += 1; });
+    const empty = document.querySelector('.empty-state'); if (empty) empty.hidden = visible !== 0;
+  }
+  filters.forEach(function(filter) { filter.addEventListener('input', filterProducts); });
+  document.querySelectorAll('[data-discipline-filter]').forEach(function(button) { button.addEventListener('click', function() { const select = document.querySelector('[data-filter="discipline"]'); const value = button.dataset.disciplineFilter; select.value = Array.from(select.options).find(function(option) { return value.includes(option.value.toLowerCase()) || option.value.toLowerCase().includes(value); })?.value || ''; filterProducts(); document.getElementById('produits').scrollIntoView({ behavior: 'smooth' }); }); });
+
+  const modal = document.getElementById('product-modal');
+  const modalData = [{% for product in products %}{% assign details = product | split: "|" %}{name: {{ details[0] | jsonify }}, category: {{ details[2] | jsonify }}, description: {{ details[4] | jsonify }}, image: {{ details[5] | jsonify }}, material: {{ details[9] | jsonify }}, sizes: {{ details[8] | jsonify }}, colors: {{ details[7] | jsonify }}, custom: {{ details[10] | jsonify }}}{% unless forloop.last %},{% endunless %}{% endfor %}];
+  function openModal(index) { const product = modalData[index]; document.getElementById('modal-title').textContent = product.name; document.getElementById('modal-category').textContent = product.category; document.getElementById('modal-description').textContent = product.description; document.getElementById('modal-image').src = product.image; document.getElementById('modal-image').alt = product.name; document.getElementById('modal-material').textContent = product.material; document.getElementById('modal-sizes').textContent = product.sizes; document.getElementById('modal-colors').textContent = product.colors; document.getElementById('modal-custom').textContent = product.custom; document.getElementById('modal-add').dataset.product = index; modal.classList.add('is-open'); modal.setAttribute('aria-hidden', 'false'); document.getElementById('modal-add').focus(); }
+  document.querySelectorAll('.quick-view').forEach(function(button) { button.addEventListener('click', function() { openModal(button.dataset.product); }); });
+  document.querySelectorAll('[data-modal-close]').forEach(function(button) { button.addEventListener('click', function() { modal.classList.remove('is-open'); modal.setAttribute('aria-hidden', 'true'); }); });
+  document.getElementById('modal-add')?.addEventListener('click', function() { addToQuote(this.dataset.product, 1); modal.classList.remove('is-open'); document.getElementById('devis').scrollIntoView({ behavior: 'smooth' }); });
+  document.addEventListener('keydown', function(event) { if (event.key === 'Escape' && modal?.classList.contains('is-open')) { modal.classList.remove('is-open'); modal.setAttribute('aria-hidden', 'true'); } });
+
+  const upload = document.getElementById('file-upload');
+  const uploadZone = document.getElementById('upload-zone');
+  const fileStatus = document.querySelector('.file-status');
+  if (upload) { upload.addEventListener('change', function() { const file = upload.files[0]; if (!file) return; const valid = ['application/pdf', 'image/jpeg', 'image/png'].includes(file.type) && file.size <= 10485760; fileStatus.textContent = valid ? file.name + ' — prêt à être envoyé' : (file.size > 10485760 ? 'Fichier trop volumineux (10 Mo maximum).' : 'Format non accepté. Utilisez un PDF, JPG, JPEG ou PNG.'); fileStatus.className = 'file-status ' + (valid ? 'is-valid' : 'is-error'); if (!valid) upload.value = ''; }); }
+  if (uploadZone) { ['dragenter', 'dragover'].forEach(function(eventName) { uploadZone.addEventListener(eventName, function(event) { event.preventDefault(); uploadZone.classList.add('is-dragging'); }); }); ['dragleave', 'drop'].forEach(function(eventName) { uploadZone.addEventListener(eventName, function(event) { event.preventDefault(); uploadZone.classList.remove('is-dragging'); }); }); uploadZone.addEventListener('drop', function(event) { if (event.dataTransfer.files.length) { upload.files = event.dataTransfer.files; upload.dispatchEvent(new Event('change')); } }); }
+  document.getElementById('quote-form')?.addEventListener('submit', function(event) { event.preventDefault(); const success = document.querySelector('.form-success'); success.hidden = false; success.scrollIntoView({ behavior: 'smooth', block: 'center' }); });
+});
 </script>

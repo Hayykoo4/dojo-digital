@@ -2,12 +2,12 @@
 layout: page
 title: Contact
 permalink: /contact/
-description: "Contactez l'équipe Dojo Digital - Questions, partenariats, suggestions ou simplement pour dire bonjour !"
+description: "Contactez KHN pour votre projet d'équipement sportif personnalisé."
 ---
 
-## Contactez-nous 📬
+## Parlons de votre équipement
 
-Vous avez une question, une suggestion d'article, ou vous souhaitez simplement échanger avec nous ? Nous serions ravis de vous lire !
+Une question sur un produit, une personnalisation ou un pack club ? Écrivez-nous, notre équipe vous répond sous 48 heures ouvrées.
 
 ### Formulaire de contact
 
@@ -26,9 +26,9 @@ Vous avez une question, une suggestion d'article, ou vous souhaitez simplement �
     <label for="subject">Sujet</label>
     <select id="subject" name="subject">
       <option value="general">Question générale</option>
-      <option value="article">Suggestion d'article</option>
-      <option value="partenariat">Partenariat</option>
-      <option value="correction">Signaler une erreur</option>
+        <option value="devis">Demande de devis</option>
+        <option value="personnalisation">Projet de personnalisation</option>
+        <option value="partenariat">Partenariat club</option>
       <option value="autre">Autre</option>
     </select>
   </div>
@@ -41,15 +41,13 @@ Vous avez une question, une suggestion d'article, ou vous souhaitez simplement �
   <button type="submit" class="btn btn-primary">Envoyer le message</button>
 </form>
 
-<p class="form-note">
-  <em>Note : Ce formulaire est actuellement en mode démonstration. Pour nous contacter, utilisez nos réseaux sociaux ci-dessous.</em>
-</p>
+<p class="form-note"><em>Pour une demande complète avec logo, tailles et quantités, utilisez directement le <a href="/#devis">formulaire de devis KHN</a>.</em></p>
 
 ---
 
-### Suivez-nous sur les réseaux
+### KHN sur les réseaux
 
-Restez connectés avec Dojo Digital et ne manquez aucune actualité !
+Suivez nos réalisations, nos matières et nos projets de clubs.
 
 <div class="contact-social">
   <a href="https://tiktok.com/@dojodigital" target="_blank" rel="noopener" class="social-btn tiktok">
@@ -80,8 +78,10 @@ Restez connectés avec Dojo Digital et ne manquez aucune actualité !
 
 ### Informations légales
 
-**Dojo Digital**  
-Site d'actualités sur les sports de combat  
-Contact : contact@dojodigital.com (placeholder)
+**KHN Sport Systems**
 
-*Tous les contenus publiés sur ce site sont la propriété de Dojo Digital, sauf mention contraire.*
+Équipements et vêtements sportifs personnalisés
+
+Contact : contact@khn-sport.com
+
+_Pour les projets de clubs, pensez à préciser les quantités, les tailles et les délais souhaités._

@@ -2,15 +2,8 @@
   <div class="container">
     <div class="header-inner">
       <!-- Logo -->
-      <a href="{{ '/' | relative_url }}" class="logo" aria-label="Dojo Digital - Accueil">
-        <img 
-          src="{{ '/assets/img/logo-dd.png' | relative_url }}" 
-          alt="Dojo Digital" 
-          class="site-logo"
-          width="50"
-          height="50"
-        >
-        <span class="logo-text">Dojo<span class="logo-accent">Digital</span></span>
+      <a href="{{ '/' | relative_url }}" class="logo" aria-label="KHN - Accueil">
+        <span class="logo-mark">K</span><span class="logo-text">KHN<small>SPORT SYSTEMS</small></span>
       </a>
 
       <!-- Navigation mobile toggle -->
@@ -20,16 +13,10 @@
 
       <!-- Navigation principale -->
       <nav class="main-nav" role="navigation">
-        <ul class="nav-list">
-          {% for item in site.navigation %}
-          <li class="nav-item">
-            <a href="{{ item.url | relative_url }}" class="nav-link {% if page.url == item.url %}active{% endif %}">
-              {{ item.title }}
-            </a>
-          </li>
-          {% endfor %}
-        </ul>
+        <ul class="nav-list"><li><a href="{{ '/' | relative_url }}#accueil" class="nav-link">Accueil</a></li><li><a href="{{ '/' | relative_url }}#produits" class="nav-link">Produits</a></li><li><a href="{{ '/' | relative_url }}#personnalisation" class="nav-link">Personnalisation</a></li><li><a href="{{ '/a-propos/' | relative_url }}" class="nav-link">À propos</a></li><li><a href="{{ '/contact/' | relative_url }}" class="nav-link">Contact</a></li></ul>
       </nav>
+      <a class="quote-basket" href="{{ '/' | relative_url }}#devis" aria-label="Voir ma demande de devis"><span>Devis</span><b id="quote-badge">0</b></a>
+      <a class="header-cta" href="{{ '/' | relative_url }}#devis">Demander un devis <span>→</span></a>
     </div>
   </div>
 </header>

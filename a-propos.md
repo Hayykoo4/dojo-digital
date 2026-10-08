@@ -2,34 +2,27 @@
 layout: page
 title: À propos
 permalink: /a-propos/
-description: "Découvrez Dojo Digital, votre média dédié aux sports de combat et aux arts martiaux."
+description: "Découvrez KHN, spécialiste des équipements sportifs personnalisés pour clubs, équipes et sportifs."
 ---
 
-## Bienvenue sur Dojo Digital 🥋
+## L'équipement comme signe de ralliement
 
-**Dojo Digital** est né d'une passion profonde pour les sports de combat et les arts martiaux. Notre mission est simple : vous offrir chaque jour les meilleures actualités, analyses et contenus sur le monde fascinant du combat.
+**KHN** accompagne les clubs, associations, écoles, académies et entreprises dans la création de leurs tenues et équipements sportifs personnalisés.
 
-### Notre philosophie
+### Notre approche
 
-Nous croyons que les arts martiaux sont bien plus que de simples sports. Ils incarnent des valeurs de respect, de discipline, de persévérance et d'humilité. À travers nos articles, nous souhaitons partager cette vision et mettre en lumière les athlètes qui font vivre ces disciplines.
+Nous croyons qu'un bon équipement doit être beau, identifiable et capable de suivre le rythme du terrain. Chaque projet est construit autour de votre identité, de vos usages et de vos quantités.
 
-### Ce que nous couvrons
+### Nos terrains de jeu
 
-- **MMA** : UFC, Bellator, PFL, ONE Championship et toutes les organisations majeures
-- **Judo** : Compétitions internationales, Grand Slam, championnats du monde et JO
-- **Jujitsu / BJJ** : ADCC, IBJJF World, techniques et analyses
-- **Lutte** : Lutte libre, gréco-romaine, championnats du monde et Jeux Olympiques
+- **Sports de combat** : judo, JJB, grappling, sambo, lutte et arts martiaux
+- **Sports collectifs** : tenues d'entraînement, de représentation et accessoires
+- **Clubs et associations** : packs cohérents, du premier échantillon à la dotation complète
 
-### L'équipe
+### Une méthode simple
 
-Dojo Digital est animé par une équipe de passionnés, pratiquants et fans de sports de combat. Nous nous efforçons de vous apporter des contenus de qualité, vérifiés et accessibles.
+Nous échangeons sur votre besoin, préparons une proposition claire et vous soumettons une maquette avant production. Un interlocuteur suit votre projet jusqu'à la livraison.
 
-### Nous rejoindre
+### Votre projet commence ici
 
-Vous souhaitez contribuer à Dojo Digital ? Vous avez une information exclusive ou une idée d'article ? N'hésitez pas à nous [contacter](/contact/) !
-
----
-
-*"Le dojo n'est pas seulement un lieu d'entraînement, c'est un espace de transformation."*
-
-Merci de nous lire et de faire partie de la communauté Dojo Digital ! 🙏
+Vous avez une idée de tenue, un logo à placer ou un club à équiper ? [Demandez votre devis](/#devis/) et décrivez-nous votre projet.
