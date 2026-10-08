@@ -1,9 +1,9 @@
 # Configuration du site KHN
-title: KHN Sport Systems
+title: Dojo Digital by KHN équipements
 description: "Équipements et vêtements sportifs personnalisés pour clubs, équipes et sportifs."
 url: "https://dojodigital.social" # Domaine personnalisé
 baseurl: "" # Vide car le site est à la racine du domaine
-author: KHN
+author: Dojo Digital by KHN équipements
 
 # Build settings
 markdown: kramdown
