@@ -48,18 +48,16 @@ social:
 navigation:
   - title: Accueil
     url: /
-  - title: Judo
-    url: /judo/
-  - title: MMA
-    url: /mma/
-  - title: Jujitsu
-    url: /jujitsu/
-  - title: Lutte
-    url: /lutte/
+  - title: Produits
+    url: /#produits
+  - title: Personnalisation
+    url: /#personnalisation
   - title: À propos
     url: /a-propos/
   - title: Contact
     url: /contact/
+  - title: Demander un devis
+    url: /#devis
 
 # Catégories avec descriptions
 categories_info:
