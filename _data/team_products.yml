@@ -1,0 +1,17 @@
+# Modifiez une ligne pour changer un produit Sports collectifs.
+# Format : nom|description|image|categorie
+- "Maillot Club Domicile|Un maillot respirant et personnalisable pour les matchs à domicile.|https://images.unsplash.com/photo-1526232761682-d26e03ac148e?auto=format&fit=crop&w=800&q=80|Sports collectifs"
+- "Maillot Club Exterieur|Une seconde tenue coordonnée pour vos déplacements.|https://images.unsplash.com/photo-1526232761682-d26e03ac148e?auto=format&fit=crop&w=800&q=80|Sports collectifs"
+- "Short Equipe|Un short léger assorti à votre maillot de club.|https://images.unsplash.com/photo-1549476464-37392f717541?auto=format&fit=crop&w=800&q=80|Sports collectifs"
+- "Survetement de Club|La tenue de représentation pour toute l'équipe.|https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=800&q=80|Club"
+- "T-shirt Entrainement|Un essentiel confortable pour les séances collectives.|https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&q=80|Sports collectifs"
+- "Sweat Club|Un sweat premium pour les joueurs et supporters.|https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=800&q=80|Club"
+- "Veste Coach|Une veste technique pour les encadrants.|https://images.unsplash.com/photo-1544966503-7cc5ac882d5f?auto=format&fit=crop&w=800&q=80|Sports collectifs"
+- "Polo Club|Un polo soigné pour les réunions et événements.|https://images.unsplash.com/photo-1586790170083-2f9ceadc732d?auto=format&fit=crop&w=800&q=80|Club"
+- "Sac Equipe 30L|Un sac compact pour les entraînements et tournois.|https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=800&q=80|Sports collectifs"
+- "Sac Equipe 60L|Un grand volume pour les déplacements de groupe.|https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=800&q=80|Sports collectifs"
+- "Chaussettes Club|Des chaussettes techniques aux couleurs du club.|https://images.unsplash.com/photo-1582966772680-860e372bb558?auto=format&fit=crop&w=800&q=80|Sports collectifs"
+- "Pack Match Complet|Maillot, short et chaussettes coordonnés pour votre équipe.|https://images.unsplash.com/photo-1526232761682-d26e03ac148e?auto=format&fit=crop&w=800&q=80|Sports collectifs"
+- "Pack Club Saison|Une dotation complète pour lancer votre saison.|https://images.unsplash.com/photo-1552674605-db6ffd4facb5?auto=format&fit=crop&w=800&q=80|Club"
+- "Drapeau Club|Un support textile pour vos événements et compétitions.|https://images.unsplash.com/photo-1521292270410-a8c4d716d518?auto=format&fit=crop&w=800&q=80|Club"
+- "Bonnet Club|Un accessoire chaud et visible aux couleurs de l'équipe.|https://images.unsplash.com/photo-1521369909029-2afed882baee?auto=format&fit=crop&w=800&q=80|Club"
