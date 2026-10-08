@@ -56,5 +56,63 @@ document.addEventListener('DOMContentLoaded', function() {
   if (upload) { upload.addEventListener('change', function() { const file = upload.files[0]; if (!file) return; const valid = ['application/pdf', 'image/jpeg', 'image/png'].includes(file.type) && file.size <= 10485760; fileStatus.textContent = valid ? file.name + ' — prêt à être envoyé' : (file.size > 10485760 ? 'Fichier trop volumineux (10 Mo maximum).' : 'Format non accepté. Utilisez un PDF, JPG, JPEG ou PNG.'); fileStatus.className = 'file-status ' + (valid ? 'is-valid' : 'is-error'); if (!valid) upload.value = ''; }); }
   if (uploadZone) { ['dragenter', 'dragover'].forEach(function(eventName) { uploadZone.addEventListener(eventName, function(event) { event.preventDefault(); uploadZone.classList.add('is-dragging'); }); }); ['dragleave', 'drop'].forEach(function(eventName) { uploadZone.addEventListener(eventName, function(event) { event.preventDefault(); uploadZone.classList.remove('is-dragging'); }); }); uploadZone.addEventListener('drop', function(event) { if (event.dataTransfer.files.length) { upload.files = event.dataTransfer.files; upload.dispatchEvent(new Event('change')); } }); }
   document.getElementById('quote-form')?.addEventListener('submit', function(event) { event.preventDefault(); const success = document.querySelector('.form-success'); success.hidden = false; success.scrollIntoView({ behavior: 'smooth', block: 'center' }); });
+
+  // Le panier de devis conserve les informations propres à chaque fiche produit.
+  const devisItems = [];
+  const devisItemsContainer = document.getElementById('devis-items');
+  const devisCount = document.getElementById('devis-count');
+  const devisBadge = document.getElementById('quote-badge');
+  const devisItemsInput = document.getElementById('devis-items-input');
+  function renderDevisItems() {
+    if (!devisItemsContainer) return;
+    devisItemsContainer.innerHTML = '';
+    if (!devisItems.length) { devisItemsContainer.innerHTML = '<p class="quote-empty">Votre demande est vide. Ajoutez un produit depuis le catalogue.</p>'; }
+    devisItems.forEach(function(item, index) {
+      const element = document.createElement('article');
+      element.className = 'quote-item';
+      const image = document.createElement('img');
+      image.src = item.image;
+      image.alt = item.product;
+      const details = document.createElement('div');
+      const title = document.createElement('h4');
+      title.textContent = item.product;
+      const summary = document.createElement('p');
+      summary.textContent = 'Quantité : ' + item.quantity + ' | Logo : ' + item.logo + ' | ' + (item.personalization || 'Aucune précision renseignée');
+      details.append(title, summary);
+      const removeButton = document.createElement('button');
+      removeButton.className = 'quote-item-remove';
+      removeButton.type = 'button';
+      removeButton.dataset.removeDevis = index;
+      removeButton.textContent = 'Supprimer';
+      element.append(image, details, removeButton);
+      devisItemsContainer.appendChild(element);
+    });
+    const totalDevisQuantity = devisItems.reduce(function(total, item) { return total + item.quantity; }, 0);
+    if (devisCount) devisCount.textContent = totalDevisQuantity;
+    if (devisBadge) devisBadge.textContent = totalDevisQuantity;
+    if (devisItemsInput) devisItemsInput.value = JSON.stringify(devisItems);
+  }
+  document.querySelectorAll('.btn-add-devis').forEach(function(button) {
+    button.addEventListener('click', function() {
+      const card = button.closest('.sport-product-card');
+      const quantity = Math.max(1, Number(card.querySelector('.product-quantity').value) || 1);
+      const logo = card.querySelector('.product-logo').files[0];
+      devisItems.push({ product: card.dataset.product, image: card.dataset.image, quantity: quantity, logo: logo ? logo.name : 'Aucun logo', personalization: card.querySelector('.product-personalization').value.trim() });
+      renderDevisItems();
+      button.textContent = 'Ajouté à votre demande ✓';
+      setTimeout(function() { button.textContent = 'Ajouter à la demande de devis'; }, 1800);
+    });
+  });
+  devisItemsContainer?.addEventListener('click', function(event) {
+    const removeButton = event.target.closest('[data-remove-devis]');
+    if (!removeButton) return;
+    devisItems.splice(Number(removeButton.dataset.removeDevis), 1);
+    renderDevisItems();
+  });
+  document.getElementById('devis-final-form')?.addEventListener('submit', function(event) {
+    if (!devisItems.length) { event.preventDefault(); alert('Ajoutez au moins un produit à votre demande de devis.'); return; }
+    if (devisItemsInput) devisItemsInput.value = JSON.stringify(devisItems);
+  });
+  renderDevisItems();
 });
 </script>
