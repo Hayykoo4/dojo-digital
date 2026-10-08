@@ -32,7 +32,9 @@ layout: default
     </div>
   </section>
 
-  <section class="sport-catalogue" id="produits">
+  {% include sport-catalogue.html %}
+
+  <section class="sport-catalogue legacy-sport-catalogue" id="produits-legacy-catalogue">
     <div class="container">
       <div class="section-heading-row"><div><p class="eyebrow">Catalogue par sport</p><h2>Équipez votre <em>collectif</em></h2></div><p class="section-note">Choisissez une discipline, puis ajoutez les produits qui composeront votre demande de devis.</p></div>
       <nav class="sport-tabs" aria-label="Catalogue par sport"><a href="#judo-jjb">Judo &amp; JJB</a><a href="#grappling-lutte">Grappling &amp; lutte</a><a href="#sports-collectifs">Sports collectifs</a><a href="#autres-sports">Autres sports / entreprises</a></nav>

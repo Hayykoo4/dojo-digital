@@ -42,6 +42,19 @@ document.addEventListener('DOMContentLoaded', function() {
   filters.forEach(function(filter) { filter.addEventListener('input', filterProducts); });
   document.querySelectorAll('[data-discipline-filter]').forEach(function(button) { button.addEventListener('click', function() { const select = document.querySelector('[data-filter="discipline"]'); const value = button.dataset.disciplineFilter; select.value = Array.from(select.options).find(function(option) { return value.includes(option.value.toLowerCase()) || option.value.toLowerCase().includes(value); })?.value || ''; filterProducts(); document.getElementById('produits').scrollIntoView({ behavior: 'smooth' }); }); });
 
+  // Les onglets changent de catalogue sans recharger ni déplacer la page.
+  document.querySelectorAll('.sport-tab').forEach(function(tab) {
+    tab.addEventListener('click', function() {
+      const targetId = tab.dataset.tabTarget;
+      document.querySelectorAll('.sport-tab').forEach(function(item) { item.classList.remove('is-active'); item.setAttribute('aria-selected', 'false'); });
+      document.querySelectorAll('.tab-content').forEach(function(content) { content.classList.remove('is-active'); content.hidden = true; });
+      tab.classList.add('is-active');
+      tab.setAttribute('aria-selected', 'true');
+      const target = document.getElementById(targetId);
+      if (target) { target.classList.add('is-active'); target.hidden = false; }
+    });
+  });
+
   const modal = document.getElementById('product-modal');
   const modalData = [{% for product in products %}{% assign details = product | split: "|" %}{name: {{ details[0] | jsonify }}, category: {{ details[2] | jsonify }}, description: {{ details[4] | jsonify }}, image: {{ details[5] | jsonify }}, material: {{ details[9] | jsonify }}, sizes: {{ details[8] | jsonify }}, colors: {{ details[7] | jsonify }}, custom: {{ details[10] | jsonify }}}{% unless forloop.last %},{% endunless %}{% endfor %}];
   function openModal(index) { const product = modalData[index]; document.getElementById('modal-title').textContent = product.name; document.getElementById('modal-category').textContent = product.category; document.getElementById('modal-description').textContent = product.description; document.getElementById('modal-image').src = product.image; document.getElementById('modal-image').alt = product.name; document.getElementById('modal-material').textContent = product.material; document.getElementById('modal-sizes').textContent = product.sizes; document.getElementById('modal-colors').textContent = product.colors; document.getElementById('modal-custom').textContent = product.custom; document.getElementById('modal-add').dataset.product = index; modal.classList.add('is-open'); modal.setAttribute('aria-hidden', 'false'); document.getElementById('modal-add').focus(); }
