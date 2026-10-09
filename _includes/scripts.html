@@ -128,13 +128,26 @@ document.addEventListener('DOMContentLoaded', function() {
     const status = form.querySelector('.devis-note');
     if (!devisItems.length) { if (status) status.textContent = 'Ajoutez au moins un produit à votre demande de devis.'; return; }
     if (devisItemsInput) devisItemsInput.value = JSON.stringify(devisItems);
-    const captchaField = form.querySelector('input[name="_captcha"]');
-    if (captchaField) captchaField.remove();
-    if (status) status.textContent = 'Envoi de votre demande...';
-    fetch('https://formsubmit.co/ajax/khn.groupe@gmail.com', { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } })
-      .then(function(response) { if (!response.ok) throw new Error('FormSubmit a refusé la demande.'); return response.json(); })
-      .then(function() { if (status) status.textContent = 'Demande envoyée. Si c’est la première fois, confirmez FormSubmit dans votre boîte Gmail.'; form.reset(); devisItems.length = 0; renderDevisItems(); })
-      .catch(function() { if (status) status.textContent = 'Envoi impossible. Vérifiez l’activation FormSubmit ou écrivez directement à khn.groupe@gmail.com.'; });
+    if (status) status.textContent = 'Ouverture de votre message Gmail...';
+    const formData = new FormData(form);
+    const message = [
+      'Nom / Club / Entreprise : ' + formData.get('company'),
+      'Email : ' + formData.get('email'),
+      'Téléphone : ' + (formData.get('phone') || 'Non renseigné'),
+      '',
+      'Produits demandés :',
+      formData.get('items'),
+      '',
+      'Message complémentaire :',
+      formData.get('message') || 'Aucun message complémentaire'
+    ].join('\n');
+    const gmailUrl = 'https://mail.google.com/mail/?view=cm&fs=1&to=' + encodeURIComponent('khn.groupe@gmail.com') + '&su=' + encodeURIComponent('Nouvelle demande de devis - Dojo Digital by KHN équipements') + '&body=' + encodeURIComponent(message);
+    const mailWindow = window.open(gmailUrl, '_blank', 'noopener');
+    if (mailWindow) {
+      if (status) status.textContent = 'Votre message est prêt dans Gmail. Cliquez sur « Envoyer » pour terminer.';
+    } else if (status) {
+      status.textContent = 'Autorisez les fenêtres surgissantes pour ouvrir votre message Gmail.';
+    }
   });
   renderDevisItems();
 });
