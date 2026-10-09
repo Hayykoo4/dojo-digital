@@ -123,8 +123,18 @@ document.addEventListener('DOMContentLoaded', function() {
     renderDevisItems();
   });
   document.getElementById('devis-final-form')?.addEventListener('submit', function(event) {
-    if (!devisItems.length) { event.preventDefault(); alert('Ajoutez au moins un produit à votre demande de devis.'); return; }
+    event.preventDefault();
+    const form = event.currentTarget;
+    const status = form.querySelector('.devis-note');
+    if (!devisItems.length) { if (status) status.textContent = 'Ajoutez au moins un produit à votre demande de devis.'; return; }
     if (devisItemsInput) devisItemsInput.value = JSON.stringify(devisItems);
+    const captchaField = form.querySelector('input[name="_captcha"]');
+    if (captchaField) captchaField.remove();
+    if (status) status.textContent = 'Envoi de votre demande...';
+    fetch('https://formsubmit.co/ajax/khn.groupe@gmail.com', { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } })
+      .then(function(response) { if (!response.ok) throw new Error('FormSubmit a refusé la demande.'); return response.json(); })
+      .then(function() { if (status) status.textContent = 'Demande envoyée. Si c’est la première fois, confirmez FormSubmit dans votre boîte Gmail.'; form.reset(); devisItems.length = 0; renderDevisItems(); })
+      .catch(function() { if (status) status.textContent = 'Envoi impossible. Vérifiez l’activation FormSubmit ou écrivez directement à khn.groupe@gmail.com.'; });
   });
   renderDevisItems();
 });
