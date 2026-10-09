@@ -40,6 +40,7 @@ plugins:
 
 # Réseaux sociaux (placeholders)
 social:
+  facebook: "https://www.facebook.com/profile.php?id=61594926580923"
   tiktok: "https://tiktok.com/@dojodigital"
   instagram: "https://instagram.com/dojodigital"
   twitter: "https://x.com/dojodigital"
