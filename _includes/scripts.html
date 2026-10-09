@@ -103,14 +103,16 @@ document.addEventListener('DOMContentLoaded', function() {
     const totalDevisQuantity = devisItems.reduce(function(total, item) { return total + item.quantity; }, 0);
     if (devisCount) devisCount.textContent = totalDevisQuantity;
     if (devisBadge) devisBadge.textContent = totalDevisQuantity;
-    if (devisItemsInput) devisItemsInput.value = JSON.stringify(devisItems);
+    if (devisItemsInput) devisItemsInput.value = devisItems.map(function(item, index) {
+      return 'Produit ' + (index + 1) + ': ' + item.product + '\nQuantité: ' + item.quantity + '\nLogo: ' + item.logo + '\nPersonnalisation: ' + (item.personalization || 'Aucune précision');
+    }).join('\n\n');
   }
   document.querySelectorAll('.btn-add-devis').forEach(function(button) {
     button.addEventListener('click', function() {
       const card = button.closest('.sport-product-card');
       const quantity = Math.max(1, Number(card.querySelector('.product-quantity').value) || 1);
       const logo = card.querySelector('.product-logo').files[0];
-      devisItems.push({ product: card.dataset.product, image: card.dataset.image, quantity: quantity, logo: logo ? logo.name : 'Aucun logo', personalization: card.querySelector('.product-personalization').value.trim() });
+      devisItems.push({ product: card.dataset.product, image: card.dataset.image, quantity: quantity, logo: logo ? logo.name : 'Aucun logo', logoFile: logo || null, personalization: card.querySelector('.product-personalization').value.trim() });
       renderDevisItems();
       button.textContent = 'Ajouté à votre demande ✓';
       setTimeout(function() { button.textContent = 'Ajouter à la demande de devis'; }, 1800);
@@ -127,27 +129,20 @@ document.addEventListener('DOMContentLoaded', function() {
     const form = event.currentTarget;
     const status = form.querySelector('.devis-note');
     if (!devisItems.length) { if (status) status.textContent = 'Ajoutez au moins un produit à votre demande de devis.'; return; }
-    if (devisItemsInput) devisItemsInput.value = JSON.stringify(devisItems);
-    if (status) status.textContent = 'Ouverture de votre message Gmail...';
+    if (devisItemsInput) devisItemsInput.value = devisItems.map(function(item, index) {
+      return 'Produit ' + (index + 1) + ': ' + item.product + '\nQuantité: ' + item.quantity + '\nLogo: ' + item.logo + '\nPersonnalisation: ' + (item.personalization || 'Aucune précision');
+    }).join('\n\n');
+    const captchaField = form.querySelector('input[name="_captcha"]');
+    if (captchaField) captchaField.remove();
     const formData = new FormData(form);
-    const message = [
-      'Nom / Club / Entreprise : ' + formData.get('company'),
-      'Email : ' + formData.get('email'),
-      'Téléphone : ' + (formData.get('phone') || 'Non renseigné'),
-      '',
-      'Produits demandés :',
-      formData.get('items'),
-      '',
-      'Message complémentaire :',
-      formData.get('message') || 'Aucun message complémentaire'
-    ].join('\n');
-    const gmailUrl = 'https://mail.google.com/mail/?view=cm&fs=1&to=' + encodeURIComponent('khn.groupe@gmail.com') + '&su=' + encodeURIComponent('Nouvelle demande de devis - Dojo Digital by KHN équipements') + '&body=' + encodeURIComponent(message);
-    const mailWindow = window.open(gmailUrl, '_blank', 'noopener');
-    if (mailWindow) {
-      if (status) status.textContent = 'Votre message est prêt dans Gmail. Cliquez sur « Envoyer » pour terminer.';
-    } else if (status) {
-      status.textContent = 'Autorisez les fenêtres surgissantes pour ouvrir votre message Gmail.';
-    }
+    devisItems.forEach(function(item, index) {
+      if (item.logoFile) formData.append('logo_' + (index + 1), item.logoFile, item.logoFile.name);
+    });
+    if (status) status.textContent = 'Envoi de votre demande et de vos fichiers...';
+    fetch('https://formsubmit.co/ajax/khn.groupe@gmail.com', { method: 'POST', body: formData, headers: { Accept: 'application/json' } })
+      .then(function(response) { if (!response.ok) throw new Error('FormSubmit a refusé la demande.'); return response.json(); })
+      .then(function() { if (status) status.textContent = 'Demande envoyée avec succès, fichiers inclus. Si nécessaire, confirmez FormSubmit dans votre boîte Gmail.'; form.reset(); devisItems.length = 0; renderDevisItems(); })
+      .catch(function() { if (status) status.textContent = 'Envoi impossible. Vérifiez l’activation FormSubmit et la taille des fichiers.'; });
   });
   renderDevisItems();
 });
