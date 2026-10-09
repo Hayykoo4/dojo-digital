@@ -76,6 +76,19 @@ document.addEventListener('DOMContentLoaded', function() {
   const devisCount = document.getElementById('devis-count');
   const devisBadge = document.getElementById('quote-badge');
   const devisItemsInput = document.getElementById('devis-items-input');
+  const devisForm = document.getElementById('devis-final-form');
+  const attachmentInput = document.createElement('input');
+  attachmentInput.type = 'file';
+  attachmentInput.name = 'attachment';
+  attachmentInput.multiple = true;
+  attachmentInput.hidden = true;
+  devisForm?.appendChild(attachmentInput);
+  function syncAttachments() {
+    if (!window.DataTransfer || !attachmentInput) return;
+    const transfer = new DataTransfer();
+    devisItems.forEach(function(item) { if (item.logoFile) transfer.items.add(item.logoFile); });
+    attachmentInput.files = transfer.files;
+  }
   function renderDevisItems() {
     if (!devisItemsContainer) return;
     devisItemsContainer.innerHTML = '';
@@ -113,8 +126,8 @@ document.addEventListener('DOMContentLoaded', function() {
       const quantity = Math.max(1, Number(card.querySelector('.product-quantity').value) || 1);
       const logoInput = card.querySelector('.product-logo');
       const logo = logoInput.files[0];
-      if (logo) logoInput.setAttribute('form', 'devis-final-form');
-      devisItems.push({ product: card.dataset.product, image: card.dataset.image, quantity: quantity, logo: logo ? logo.name : 'Aucun logo', logoInput: logoInput, personalization: card.querySelector('.product-personalization').value.trim() });
+      devisItems.push({ product: card.dataset.product, image: card.dataset.image, quantity: quantity, logo: logo ? logo.name : 'Aucun logo', logoFile: logo || null, logoInput: logoInput, personalization: card.querySelector('.product-personalization').value.trim() });
+      syncAttachments();
       renderDevisItems();
       button.textContent = 'Ajouté à votre demande ✓';
       setTimeout(function() { button.textContent = 'Ajouter à la demande de devis'; }, 1800);
@@ -125,6 +138,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (!removeButton) return;
     const removedItems = devisItems.splice(Number(removeButton.dataset.removeDevis), 1);
     if (removedItems[0]?.logoInput) removedItems[0].logoInput.removeAttribute('form');
+    syncAttachments();
     renderDevisItems();
   });
   document.getElementById('devis-final-form')?.addEventListener('submit', function(event) {
@@ -138,6 +152,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const captchaField = form.querySelector('input[name="_captcha"]');
     if (captchaField) captchaField.remove();
     form.enctype = 'multipart/form-data';
+    syncAttachments();
     if (status) status.textContent = 'Envoi de votre demande et de vos fichiers...';
     HTMLFormElement.prototype.submit.call(form);
   });
