@@ -134,9 +134,10 @@ document.addEventListener('DOMContentLoaded', function() {
     }).join('\n\n');
     const captchaField = form.querySelector('input[name="_captcha"]');
     if (captchaField) captchaField.remove();
+    form.enctype = 'multipart/form-data';
     const formData = new FormData(form);
     devisItems.forEach(function(item, index) {
-      if (item.logoFile) formData.append('logo_' + (index + 1), item.logoFile, item.logoFile.name);
+      if (item.logoFile) formData.append('attachment', item.logoFile, item.logoFile.name);
     });
     if (status) status.textContent = 'Envoi de votre demande et de vos fichiers...';
     fetch('https://formsubmit.co/ajax/khn.groupe@gmail.com', { method: 'POST', body: formData, headers: { Accept: 'application/json' } })
