@@ -111,8 +111,10 @@ document.addEventListener('DOMContentLoaded', function() {
     button.addEventListener('click', function() {
       const card = button.closest('.sport-product-card');
       const quantity = Math.max(1, Number(card.querySelector('.product-quantity').value) || 1);
-      const logo = card.querySelector('.product-logo').files[0];
-      devisItems.push({ product: card.dataset.product, image: card.dataset.image, quantity: quantity, logo: logo ? logo.name : 'Aucun logo', logoFile: logo || null, personalization: card.querySelector('.product-personalization').value.trim() });
+      const logoInput = card.querySelector('.product-logo');
+      const logo = logoInput.files[0];
+      if (logo) logoInput.setAttribute('form', 'devis-final-form');
+      devisItems.push({ product: card.dataset.product, image: card.dataset.image, quantity: quantity, logo: logo ? logo.name : 'Aucun logo', logoInput: logoInput, personalization: card.querySelector('.product-personalization').value.trim() });
       renderDevisItems();
       button.textContent = 'Ajouté à votre demande ✓';
       setTimeout(function() { button.textContent = 'Ajouter à la demande de devis'; }, 1800);
@@ -121,7 +123,8 @@ document.addEventListener('DOMContentLoaded', function() {
   devisItemsContainer?.addEventListener('click', function(event) {
     const removeButton = event.target.closest('[data-remove-devis]');
     if (!removeButton) return;
-    devisItems.splice(Number(removeButton.dataset.removeDevis), 1);
+    const removedItems = devisItems.splice(Number(removeButton.dataset.removeDevis), 1);
+    if (removedItems[0]?.logoInput) removedItems[0].logoInput.removeAttribute('form');
     renderDevisItems();
   });
   document.getElementById('devis-final-form')?.addEventListener('submit', function(event) {
@@ -135,15 +138,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const captchaField = form.querySelector('input[name="_captcha"]');
     if (captchaField) captchaField.remove();
     form.enctype = 'multipart/form-data';
-    const formData = new FormData(form);
-    devisItems.forEach(function(item, index) {
-      if (item.logoFile) formData.append('attachment', item.logoFile, item.logoFile.name);
-    });
     if (status) status.textContent = 'Envoi de votre demande et de vos fichiers...';
-    fetch('https://formsubmit.co/ajax/khn.groupe@gmail.com', { method: 'POST', body: formData, headers: { Accept: 'application/json' } })
-      .then(function(response) { if (!response.ok) throw new Error('FormSubmit a refusé la demande.'); return response.json(); })
-      .then(function() { if (status) status.textContent = 'Demande envoyée avec succès, fichiers inclus. Si nécessaire, confirmez FormSubmit dans votre boîte Gmail.'; form.reset(); devisItems.length = 0; renderDevisItems(); })
-      .catch(function() { if (status) status.textContent = 'Envoi impossible. Vérifiez l’activation FormSubmit et la taille des fichiers.'; });
+    HTMLFormElement.prototype.submit.call(form);
   });
   renderDevisItems();
 });
